@@ -8,7 +8,7 @@ st.set_page_config(layout="wide")
 
 # Load the dataset containing book information
 # Note: Adjust the file path to where your BX-Books.csv is located.
-df_books = pd.read_csv('../data/BX-Books.csv', sep=';', encoding='latin-1', low_memory=False)
+df_books = pd.read_csv('./Week 01/app/data/BX-Books.csv', sep=';', encoding='latin-1', low_memory=False)
 
 
 # Initialize a session state for storing the current book's ISBN if not already present
@@ -33,24 +33,24 @@ with info:
 
 # Display recommendations based on the most reviewed books
 st.subheader('Recommendations based on most reviewed')
-df_most_reviewed = pd.read_csv('recommendations/recommendations-most-reviewed.csv', sep=';', encoding='latin-1', dtype=object)
+df_most_reviewed = pd.read_csv('./Week 01/app/recommendations/recommendations-most-reviewed.csv', sep=';', encoding='latin-1', dtype=object)
 df_most_reviewed = df_most_reviewed.merge(df_books, on='ISBN')
 t.recommendations(df_most_reviewed)
 
 # Display recommendations based on average rating
 st.subheader('Recommendations based on average rating')
-df_avg_rating = pd.read_csv('recommendations/recommendations-ratings-avg.csv', sep=';', encoding='latin-1', dtype=object)
+df_avg_rating = pd.read_csv('./Week 01/app/recommendations/recommendations-ratings-avg.csv', sep=';', encoding='latin-1', dtype=object)
 df_avg_rating = df_avg_rating.merge(df_books, on='ISBN')
 t.recommendations(df_avg_rating)
 
 # Display recommendations based on weighted rating
 st.subheader('Recommendations based on weighted rating')
-df_weighted_rating = pd.read_csv('recommendations/recommendations-ratings-weight.csv', sep=';', encoding='latin-1', dtype=object)
+df_weighted_rating = pd.read_csv('./Week 01/app/recommendations/recommendations-ratings-weight.csv', sep=';', encoding='latin-1', dtype=object)
 df_weighted_rating = df_weighted_rating.merge(df_books, on='ISBN')
 t.recommendations(df_weighted_rating)
 
 st.subheader('Recommendations based on Frequently Reviewed Together (frequency)')
-df = pd.read_csv('recommendations/recommendations-seeded-freq.csv', sep=';', encoding='latin-1', dtype=object)
+df = pd.read_csv('./Week 01/app/recommendations/recommendations-seeded-freq.csv', sep=';', encoding='latin-1', dtype=object)
 isbn = st.session_state['ISBN']
 df_recommendations = df[df['book_a'] == isbn].sort_values(by='count', ascending=False)
 df_recommendations = df_recommendations.rename(columns={"book_b": "ISBN"})
@@ -58,7 +58,7 @@ df_recommendations = df_recommendations.merge(df_books, on='ISBN')
 t.recommendations(df_recommendations)
 
 st.subheader('Recommendations based on Frequently Reviewed Together (associations)')
-df = pd.read_csv('recommendations/recommendations-seeded-associations.csv', sep=';', encoding='latin-1', dtype=object)
+df = pd.read_csv('./Week 01/app/recommendations/recommendations-seeded-associations.csv', sep=';', encoding='latin-1', dtype=object)
 isbn = st.session_state['ISBN']
 df_recommendations = df[df['source'] == isbn].sort_values(by='confidence', ascending=False).head(10)
 df_recommendations = df_recommendations.rename(columns={"target": "ISBN"})
